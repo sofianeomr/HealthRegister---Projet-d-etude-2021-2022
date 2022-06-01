@@ -15,8 +15,6 @@ root = tk.Tk()
 root.title("Prise de rendez vous")
 #Tikinter Vars
 nompatient = tk.StringVar()
-name = tk.StringVar()
-loggedInLabel = tk.StringVar()
 hours = tk.IntVar()
 minutes = tk.IntVar()
 #Functions
@@ -42,10 +40,10 @@ def makeAppointment():
 		writeList = [nompatient.get(),date,time]
 		writer.writerow(writeList)
 		appFile.close()
-	messagebox.showinfo("Success!","Appointment made!")
+	messagebox.showinfo("Success!","Rendez vous programmé !")
 	calendarViewFrame = tk.Frame(userFrame, borderwidth=5, bg="lightblue")
 	calendarViewFrame.grid(row=1, column=3, columnspan=5)
-	viewCalendar = CalendarView(calendarViewFrame, {name.get()})
+	viewCalendar = CalendarView(calendarViewFrame, {})
 	raiseFrame(userFrame)
 
 
@@ -56,21 +54,21 @@ frameList=[userFrame,bookAppointment]
 #Configure all (main) Frames
 for frame in frameList:
 	frame.grid(row=0,column=0, sticky='news')
-	frame.configure(bg='lightblue')
+	frame.configure(bg='gray')
 
-tk.Label(bookAppointment,text="Rendez vous",font=("Arial", 30),bg='lightblue').grid(row=1,column=1,columnspan=5)
-tk.Label(bookAppointment,text="Date: ",font=("Arial", 20),bg='lightblue').grid(row=2,column=1)
-tk.Label(bookAppointment,text="Heure: ",font=("Arial", 22),bg='lightblue').grid(row=3,column=1)
-tk.Label(bookAppointment,text="Nom patient: ",font=("Arial", 22),bg='lightblue').grid(row=4,column=1)
-tk.Entry(bookAppointment,textvariable=nompatient,font=("Arial", 22),bg='white').grid(row=4,column=2)
+tk.Label(bookAppointment,text="Rendez vous",font=("Arial", 30),bg='gray').grid(row=1,column=1,columnspan=5)
+tk.Label(bookAppointment,text="Date: ",font=("Arial", 20),bg='gray').grid(row=2,column=1)
+tk.Label(bookAppointment,text="Heure: ",font=("Arial", 22),bg='gray').grid(row=3,column=1)
+tk.Label(bookAppointment,text="Nom patient: ",font=("Arial", 22),bg='gray').grid(row=4,column=1)
+tk.Entry(bookAppointment,font=("Arial", 22),bg='white').grid(row=4,column=2)
 
 tk.Button(bookAppointment,font=("Arial", 15),bg='#D2691E',text="Programmer le RDV",command=lambda :makeAppointment()).grid(row=4,column=4)
 
 #Time Selector
-timeSelectFrame = tk.Frame(bookAppointment,borderwidth=5,bg="lightblue")
+timeSelectFrame = tk.Frame(bookAppointment,borderwidth=5,bg="gray")
 timeSelectFrame.grid(row=3,column=2)
 tk.Spinbox(timeSelectFrame,from_=1, to=24,bg="white",width=2,textvariable=hours).grid(row=1,column=1)
-tk.Label(timeSelectFrame,text=":",bg="lightblue").grid(row=1,column=2)
+tk.Label(timeSelectFrame,text=":",bg="gray").grid(row=1,column=2)
 tk.Spinbox(timeSelectFrame,width=2,textvariable=minutes,values=(0,15,30,45),bg="white").grid(row=1,column=3)
 
 def lister():
@@ -82,7 +80,7 @@ def lister():
 def save():
 	text_file = open("appointments.txt", 'w')
 	text_file.write(list.get(1.0, END))
-	messagebox.showerror("", "Felecitation vous etes inscrit")
+	messagebox.showinfo("", "Modification sauvegardé")
 
 
 calendarFrame = tk.Frame(bookAppointment, borderwidth=5, bg="lightblue")

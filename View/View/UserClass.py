@@ -38,16 +38,16 @@ class ManageUser :
 
     def addUser(self,name,prenom,telephone,email,mp,confmp)->User:        
         if name=="" or prenom=="" or telephone=="" or mp=="" or confmp=="" :
-            messagebox.showwarning("", "veuillez remplir toute les données")
+            messagebox.showwarning("erreur", "veuillez remplir toute les données")
 
         elif mp != confmp  or len(mp)<8 :
-            messagebox.showwarning("", "Le mot de passe et la confirmation du mot de passe doivent etre identique")
+            messagebox.showwarning("erreur", "Le mot de passe et la confirmation du mot de passe doivent etre identique")
 
         elif self.check(email) == 0:
-            messagebox.showwarning("", "L'email n'est pas conforme")
+            messagebox.showwarning("erreur", "L'email n'est pas conforme")
 
         elif self.verifyUser(name,prenom,telephone,email) != 0:
-            messagebox.showwarning("", "Erreur de connexion")
+            messagebox.showwarning("erreur", "Erreur de connexion")
 
         else:
             encoded=mp.encode()
@@ -60,7 +60,7 @@ class ManageUser :
             self.mydb.commit()
             id = myCursor.lastrowid
             user = User(id,name,prenom,telephone,email,pswdHashed)
-            messagebox.showerror("", "Felecitation vous etes inscrit")
+            messagebox.showinfo("", "Felecitation vous etes inscrit")
             self.userList = user
             self.root.destroy()
             return user
@@ -81,7 +81,7 @@ class ManageUser :
         
     def Seconnecter(self,email,mp):
         if (email == "" or mp == ""):
-            messagebox.showerror("", "il faut rentrer les données", parent=self.root)
+            messagebox.showerror("erreur", "il faut rentrer les données", parent=self.root)
         else:
             try:      
                 encoded=mp.encode()
@@ -93,9 +93,9 @@ class ManageUser :
                 myresult = myCursor.fetchall()
 
                 if len(myresult) == 0:
-                    messagebox.showerror("Cette utilisateur n'existe pas", parent=self.root)
+                    messagebox.showerror("erreur","Cette utilisateur n'existe pas", parent=self.root)
                 else:
-                    messagebox.showinfo("", "bvn")
+                    messagebox.showinfo("", "Bienvenue !")
                     for x in myresult:
                         userList.append(User(x[0], x[1], x[2], x[3], x[4], x[5]))                    
                     return userList   
